@@ -14,6 +14,10 @@ export default function Root() {
   // console.log(contacts);
   const submit = useSubmit();
 
+  const searching =
+    navigation.location &&
+    new URLSearchParams(navigation.location.search).has("q");
+
   useEffect(() => {
     document.getElementById("q").value = q;
   }, [q]);
@@ -25,6 +29,7 @@ export default function Root() {
         <div>
           <form id="search-form" role="search">
             <input
+              className={searching ? "loading" : ""}
               id="q"
               aria-label="Search contacts"
               placeholder="Search"
@@ -35,7 +40,7 @@ export default function Root() {
                 submit(event.currentTarget.form);
               }}
             />
-            <div id="search-spinner" aria-hidden hidden={true} />
+            <div id="search-spinner" aria-hidden hidden={!searching} />
             <div className="sr-only" aria-live="polite"></div>
           </form>
           <Form method="post">
