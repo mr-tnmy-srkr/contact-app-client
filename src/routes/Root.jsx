@@ -1,15 +1,23 @@
+import { useEffect } from "react";
 import {
   Form,
   NavLink,
   Outlet,
   useLoaderData,
   useNavigation,
+  useSubmit,
 } from "react-router-dom";
 
 export default function Root() {
-  const { contacts } = useLoaderData();
+  const { contacts, q } = useLoaderData();
   const navigation = useNavigation();
-  console.log(contacts);
+  // console.log(contacts);
+  const submit = useSubmit();
+
+  useEffect(() => {
+    document.getElementById("q").value = q;
+  }, [q]);
+
   return (
     <>
       <div id="sidebar">
@@ -22,6 +30,10 @@ export default function Root() {
               placeholder="Search"
               type="search"
               name="q"
+              defaultValue={q}
+              onChange={(event) => {
+                submit(event.currentTarget.form);
+              }}
             />
             <div id="search-spinner" aria-hidden hidden={true} />
             <div className="sr-only" aria-live="polite"></div>
